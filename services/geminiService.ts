@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { RoomType } from '../types';
 
 const getClient = () => {
-    const apiKey = "AIzaSyAa0j3ZpNM9DUdBdN7G0eRdoniwgMHsg1Y";
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
     if (!apiKey) return null;
     return new GoogleGenAI({ apiKey });
 };
