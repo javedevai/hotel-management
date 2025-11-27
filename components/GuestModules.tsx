@@ -19,7 +19,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <NeonCard className="p-4 flex flex-wrap lg:flex-nowrap gap-4 items-end bg-slate-900/90 sticky top-4 z-40 mx-auto max-w-6xl shadow-2xl">
+    <NeonCard className="p-6 flex flex-wrap lg:flex-nowrap gap-4 items-end glass-card sticky top-24 z-40 mx-auto max-w-6xl shadow-2xl gold-border">
       <div className="flex-1 min-w-[200px]">
         <NeonInput type="text" placeholder="Where do you want to stay?" label="Destination" defaultValue="Quetta A1 Hotel" disabled />
       </div>
@@ -40,19 +40,19 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       </div>
 
       <div className="min-w-[150px]">
-        <label className="text-xs font-bold text-cyan-400 uppercase tracking-wider block mb-1">Guests</label>
-        <div className="h-[50px] bg-slate-900/50 border border-slate-700 rounded-lg flex items-center px-4 text-slate-300">
+        <label className="text-sm font-medium text-luxury-gold-light tracking-wide block mb-2">Guests</label>
+        <div className="h-[50px] glass-card border border-white/10 rounded-xl flex items-center px-4 text-white">
           2 Adults, 1 Room
         </div>
       </div>
 
       <div className="flex items-center justify-center h-[50px] px-2">
         <label className="flex items-center gap-2 cursor-pointer group">
-          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${isWork ? 'bg-cyan-500 border-cyan-500' : 'border-slate-600'}`}>
+          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${isWork ? 'bg-luxury-gold border-luxury-gold' : 'border-gray-600'}`}>
              <input type="checkbox" className="hidden" checked={isWork} onChange={() => setIsWork(!isWork)} />
-             {isWork && <Briefcase size={12} className="text-black" />}
+             {isWork && <Briefcase size={12} className="text-luxury-navy" />}
           </div>
-          <span className="text-sm text-slate-400 group-hover:text-cyan-300 transition-colors">Business</span>
+          <span className="text-sm text-gray-400 group-hover:text-luxury-gold transition-colors">Business</span>
         </label>
       </div>
 
@@ -73,26 +73,26 @@ export const RoomListItem: React.FC<{ room: RoomType, onBook: (id: string) => vo
           alt={room.name} 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute top-2 left-2">
-            {room.rating > 4.5 && <NeonBadge color="green">Guest Favorite</NeonBadge>}
+        <div className="absolute top-4 left-4">
+            {room.rating > 4.5 && <NeonBadge color="gold">Guest Favorite</NeonBadge>}
         </div>
       </div>
       <div className="p-6 flex-1 flex flex-col justify-between">
         <div>
           <div className="flex justify-between items-start">
-            <h3 className="text-2xl font-bold text-white mb-2">{room.name}</h3>
-            <div className="flex items-center gap-1 bg-cyan-900/30 px-2 py-1 rounded">
-                <Star size={14} className="text-amber-400 fill-amber-400" />
+            <h3 className="text-3xl font-bold luxury-heading gradient-gold mb-2">{room.name}</h3>
+            <div className="flex items-center gap-1 glass-card px-3 py-2 rounded-lg border border-luxury-gold/30">
+                <Star size={16} className="text-luxury-gold fill-luxury-gold" />
                 <span className="text-white font-bold">{room.rating}</span>
-                <span className="text-slate-400 text-xs">({room.reviews_count})</span>
+                <span className="text-gray-400 text-xs">({room.reviews_count})</span>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-cyan-400 text-sm mb-4">
-            <MapPin size={14} />
+          <div className="flex items-center gap-2 text-luxury-gold text-sm mb-4">
+            <MapPin size={16} />
             <span>Quetta Cantonment View</span>
-            <span className="text-slate-600">|</span>
-            <Users size={14} />
+            <span className="text-gray-600">|</span>
+            <Users size={16} />
             <span>Max {room.max_occupancy} guests</span>
           </div>
 
@@ -100,22 +100,22 @@ export const RoomListItem: React.FC<{ room: RoomType, onBook: (id: string) => vo
           
           <div className="flex flex-wrap gap-2 mb-6">
             {room.amenities.slice(0, 4).map(am => (
-              <span key={am} className="text-xs text-slate-500 border border-slate-700 rounded-full px-2 py-1 bg-slate-900">
+              <span key={am} className="text-xs text-gray-400 border border-white/10 rounded-full px-3 py-1.5 glass-card">
                 {am}
               </span>
             ))}
-            {room.amenities.length > 4 && <span className="text-xs text-slate-500 px-2 py-1">+ {room.amenities.length - 4} more</span>}
+            {room.amenities.length > 4 && <span className="text-xs text-gray-500 px-2 py-1">+ {room.amenities.length - 4} more</span>}
           </div>
         </div>
 
-        <div className="flex items-end justify-between border-t border-slate-800 pt-4">
+        <div className="flex items-end justify-between border-t border-luxury-gold/20 pt-6">
           <div>
-            <span className="text-slate-400 text-sm">Price per night</span>
-            <div className="text-3xl font-bold text-white">${room.base_price}</div>
-            <span className="text-xs text-slate-500">Includes taxes & fees</span>
+            <span className="text-gray-400 text-sm font-medium">From</span>
+            <div className="text-4xl font-bold luxury-heading gradient-gold">${room.base_price}</div>
+            <span className="text-xs text-gray-500">per night, taxes included</span>
           </div>
           <NeonButton onClick={() => onBook(room.id)}>
-            Select Room
+            Reserve Now
           </NeonButton>
         </div>
       </div>
@@ -179,34 +179,34 @@ export const DiningMenu: React.FC = () => {
     return sum + (item ? item.price * qty : 0);
   }, 0);
 
-  if (loading) return <div className="text-center py-20 text-cyan-400 animate-pulse">Loading menu...</div>;
+  if (loading) return <div className="text-center py-20 text-luxury-gold animate-pulse font-medium text-xl">Loading menu...</div>;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2 space-y-6">
-        <h2 className="text-2xl font-bold text-cyan-400 flex items-center gap-2">
-          <Coffee /> Kitchen Menu
+        <h2 className="text-3xl font-bold luxury-heading gradient-gold flex items-center gap-3">
+          <Coffee size={32} /> Culinary Selection
         </h2>
         <div className="grid gap-6">
           {menuItems.map(item => (
-            <NeonCard key={item.id} className="flex p-4 gap-4 items-center">
-               <img src={item.image_url} className="w-20 h-20 rounded-lg object-cover bg-slate-800" alt={item.name} />
+            <NeonCard key={item.id} className="flex p-5 gap-5 items-center hover-lift">
+               <img src={item.image_url} className="w-24 h-24 rounded-xl object-cover glass-card border border-luxury-gold/20" alt={item.name} />
                <div className="flex-1">
-                 <div className="flex justify-between">
-                    <h3 className="font-bold text-lg">{item.name}</h3>
-                    <span className="text-cyan-400 font-mono">${item.price}</span>
+                 <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-xl text-white">{item.name}</h3>
+                    <span className="text-luxury-gold font-bold text-lg">${item.price}</span>
                  </div>
-                 <p className="text-slate-400 text-sm mb-2">{item.description}</p>
+                 <p className="text-gray-400 text-sm mb-3">{item.description}</p>
                  <div className="flex gap-2">
                     {item.dietary_tags.map(tag => (
-                        <NeonBadge key={tag} color="amber">{tag}</NeonBadge>
+                        <NeonBadge key={tag} color="blue">{tag}</NeonBadge>
                     ))}
                  </div>
                </div>
-               <div className="flex flex-col items-center gap-1">
-                 <button onClick={() => updateCart(item, 1)} className="p-1 bg-slate-800 rounded hover:bg-cyan-500/20 text-cyan-400"><Plus size={16}/></button>
-                 <span className="font-bold w-6 text-center">{cart.get(item.id) || 0}</span>
-                 <button onClick={() => updateCart(item, -1)} className="p-1 bg-slate-800 rounded hover:bg-red-500/20 text-red-400"><Minus size={16}/></button>
+               <div className="flex flex-col items-center gap-2">
+                 <button onClick={() => updateCart(item, 1)} className="p-2 glass-card border border-luxury-gold/30 rounded-lg hover:bg-luxury-gold/20 text-luxury-gold transition-all"><Plus size={18}/></button>
+                 <span className="font-bold w-8 text-center text-lg">{cart.get(item.id) || 0}</span>
+                 <button onClick={() => updateCart(item, -1)} className="p-2 glass-card border border-red-500/30 rounded-lg hover:bg-red-500/20 text-red-400 transition-all"><Minus size={18}/></button>
                </div>
             </NeonCard>
           ))}
@@ -215,34 +215,35 @@ export const DiningMenu: React.FC = () => {
 
       {/* Cart Summary */}
       <div className="lg:col-span-1">
-        <NeonCard className="p-6 sticky top-24 border-cyan-500/30">
-          <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-            <ShoppingCart size={20} className="text-cyan-400"/> Your Order
+        <NeonCard className="p-6 sticky top-24 gold-border">
+          <h3 className="text-2xl font-bold luxury-heading mb-6 flex items-center gap-3">
+            <ShoppingCart size={24} className="text-luxury-gold"/> <span className="gradient-gold">Your Order</span>
           </h3>
           {cart.size === 0 ? (
-            <p className="text-slate-500 text-center py-8">Your tray is empty.</p>
+            <p className="text-gray-500 text-center py-12">Your order is empty</p>
           ) : (
             <div className="space-y-4">
                {Array.from(cart.entries()).map(([id, qty]) => {
                  const item = menuItems.find(m => m.id === id);
                  if (!item) return null;
                  return (
-                   <div key={id} className="flex justify-between text-sm">
-                      <span>{qty}x {item.name}</span>
-                      <span>${(item.price * qty).toFixed(2)}</span>
+                   <div key={id} className="flex justify-between text-sm py-2">
+                      <span className="text-white">{qty}x {item.name}</span>
+                      <span className="text-luxury-gold font-semibold">${(item.price * qty).toFixed(2)}</span>
                    </div>
                  );
                })}
-               <div className="border-t border-slate-700 pt-4 mt-4 flex justify-between font-bold text-lg">
-                 <span>Total</span>
-                 <span className="text-cyan-400">${total.toFixed(2)}</span>
+               <div className="luxury-divider my-4"></div>
+               <div className="flex justify-between font-bold text-xl py-2">
+                 <span className="text-white">Total</span>
+                 <span className="gradient-gold">${total.toFixed(2)}</span>
                </div>
-               <NeonInput placeholder="Add special instructions..." className="text-sm" />
+               <NeonInput placeholder="Special requests..." className="text-sm mt-4" />
                <NeonButton className="w-full mt-4" onClick={placeOrder} disabled={ordering}>
-                 {ordering ? <Loader className="animate-spin mx-auto" /> : 'Place Order'}
+                 {ordering ? <Loader className="animate-spin mx-auto" /> : 'Confirm Order'}
                </NeonButton>
             </div>
-          )}
+          )
         </NeonCard>
       </div>
     </div>
