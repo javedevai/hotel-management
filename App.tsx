@@ -148,17 +148,20 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () =
          <SearchBar onSearch={(f) => { setFilters(f); setShowResults(true); }} />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 mt-12">
+      <div className="max-w-7xl mx-auto px-4 mt-16">
         {showResults ? (
            <div className="fade-in-up">
-              <h2 className="text-3xl font-bold mb-8 text-white luxury-heading">
-                <span className="gradient-gold">Available</span> Accommodations
-              </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-luxury-gold to-transparent mb-8"></div>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 luxury-heading">
+                  <span className="gradient-gold">Available</span> <span className="text-white">Accommodations</span>
+                </h2>
+                <div className="w-32 h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent mx-auto mb-4"></div>
+                <p className="text-gray-400 text-lg">Discover your perfect sanctuary</p>
+              </div>
               {loading ? (
-                <div className="text-center py-20 text-luxury-gold animate-pulse font-medium">Checking availability...</div>
+                <div className="text-center py-20 text-luxury-gold animate-pulse font-medium text-xl">Checking availability...</div>
               ) : (
-                <div className="grid gap-6">
+                <div className="grid gap-8">
                     {rooms.map(room => (
                         <RoomListItem key={room.id} room={room} onBook={handleBook} />
                     ))}
@@ -166,11 +169,28 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () =
               )}
            </div>
         ) : (
-           <div className="text-center py-32">
-             <div className="inline-block p-6 rounded-full glass-card gold-border mb-6 float-animation">
-                <Hotel size={40} className="text-luxury-gold"/>
+           <div className="text-center py-24">
+             <div className="max-w-3xl mx-auto">
+               <div className="inline-block p-8 rounded-2xl glass-card gold-border mb-8 float-animation">
+                  <Hotel size={56} className="text-luxury-gold" strokeWidth={1.5}/>
+               </div>
+               <h3 className="text-3xl font-bold luxury-heading mb-4 text-white">Begin Your Journey</h3>
+               <p className="text-gray-400 text-lg mb-8 max-w-xl mx-auto">Select your arrival and departure dates to explore our collection of luxury accommodations</p>
+               <div className="flex justify-center gap-8 text-sm text-gray-500">
+                 <div className="flex items-center gap-2">
+                   <div className="w-2 h-2 rounded-full bg-luxury-gold"></div>
+                   <span>Premium Suites</span>
+                 </div>
+                 <div className="flex items-center gap-2">
+                   <div className="w-2 h-2 rounded-full bg-luxury-gold"></div>
+                   <span>24/7 Concierge</span>
+                 </div>
+                 <div className="flex items-center gap-2">
+                   <div className="w-2 h-2 rounded-full bg-luxury-gold"></div>
+                   <span>Fine Dining</span>
+                 </div>
+               </div>
              </div>
-             <p className="text-gray-400 text-lg">Select your dates to discover our luxury accommodations</p>
            </div>
         )}
       </div>
