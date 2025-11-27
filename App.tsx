@@ -16,7 +16,7 @@ import { RoomType } from './types';
 const AIChatWidget: React.FC<{ rooms: RoomType[] }> = ({ rooms }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<{role: 'user' | 'ai', text: string}[]>([
-    { role: 'ai', text: "Hello! I'm Neon, your Quetta A1 virtual concierge. How can I assist you today?" }
+    { role: 'ai', text: "Welcome to Quetta A1 Hotel. I'm your personal concierge. How may I assist you today?" }
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,44 +45,44 @@ const AIChatWidget: React.FC<{ rooms: RoomType[] }> = ({ rooms }) => {
       {!isOpen && (
         <button 
           onClick={toggleChat}
-          className="bg-cyan-500 hover:bg-cyan-400 text-black w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all animate-bounce"
+          className="bg-gradient-to-br from-luxury-gold to-luxury-gold-light text-luxury-navy w-16 h-16 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all hover:scale-110 hover:shadow-[0_0_40px_rgba(212,175,55,0.8)] float-animation"
         >
-          <MessageSquare size={24} />
+          <MessageSquare size={26} strokeWidth={2.5} />
         </button>
       )}
 
       {isOpen && (
-        <NeonCard className="w-[350px] h-[500px] flex flex-col p-0 overflow-hidden shadow-2xl animate-fade-in-up">
-          <div className="bg-cyan-900/50 p-4 flex justify-between items-center border-b border-cyan-500/30">
-            <div className="flex items-center gap-2">
-               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-               <h3 className="font-bold text-white">Neon Concierge</h3>
+        <NeonCard className="w-[380px] h-[550px] flex flex-col p-0 overflow-hidden shadow-2xl fade-in-up gold-border">
+          <div className="bg-gradient-to-r from-luxury-gold/20 to-luxury-gold-light/10 p-5 flex justify-between items-center border-b border-luxury-gold/30 backdrop-blur-xl">
+            <div className="flex items-center gap-3">
+               <div className="w-3 h-3 rounded-full bg-luxury-gold animate-pulse shadow-[0_0_10px_rgba(212,175,55,0.8)]"></div>
+               <h3 className="font-bold text-white text-lg">Concierge</h3>
             </div>
-            <button onClick={toggleChat} className="text-slate-400 hover:text-white"><X size={20} /></button>
+            <button onClick={toggleChat} className="text-gray-400 hover:text-luxury-gold transition-all hover:rotate-90 transform duration-300"><X size={22} /></button>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-gradient-to-b from-luxury-navy/50 to-luxury-navy-light/50">
              {messages.map((m, i) => (
-               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-[80%] p-3 rounded-lg text-sm ${m.role === 'user' ? 'bg-cyan-600 text-white rounded-br-none' : 'bg-slate-800 text-slate-200 rounded-bl-none'}`}>
+               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'} fade-in-up`}>
+                  <div className={`max-w-[85%] p-4 rounded-2xl text-sm backdrop-blur-sm ${m.role === 'user' ? 'bg-gradient-to-br from-luxury-gold to-luxury-gold-light text-luxury-navy font-medium rounded-br-none shadow-lg' : 'glass-card border border-white/10 text-gray-100 rounded-bl-none'}`}>
                     {m.text}
                   </div>
                </div>
              ))}
-             {loading && <div className="text-xs text-slate-500 animate-pulse ml-2">Neon is thinking...</div>}
+             {loading && <div className="text-xs text-luxury-gold animate-pulse ml-2 font-medium">Concierge is typing...</div>}
              <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-3 border-t border-slate-700 bg-slate-900 flex gap-2">
+          <div className="p-4 border-t border-luxury-gold/20 glass-card flex gap-3">
             <input 
-               className="flex-1 bg-slate-800 rounded px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 ring-cyan-500"
-               placeholder="Ask about rooms or services..."
+               className="flex-1 glass-card border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-luxury-gold focus:shadow-[0_0_15px_rgba(212,175,55,0.2)] transition-all placeholder-gray-500"
+               placeholder="Ask about our services..."
                value={input}
                onChange={(e) => setInput(e.target.value)}
                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             />
-            <button onClick={handleSend} className="bg-cyan-500 p-2 rounded text-black hover:bg-cyan-400">
-               <Send size={16} />
+            <button onClick={handleSend} className="bg-gradient-to-br from-luxury-gold to-luxury-gold-light p-3 rounded-xl text-luxury-navy hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all hover:scale-105">
+               <Send size={18} strokeWidth={2.5} />
             </button>
           </div>
         </NeonCard>
@@ -126,14 +126,22 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () =
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="pt-20 pb-12 px-6 text-center max-w-4xl mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]">
+      <div className="pt-24 pb-16 px-6 text-center max-w-5xl mx-auto">
+        <div className="mb-4 inline-block">
+          <div className="w-20 h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent mb-8"></div>
+        </div>
+        <h1 className="text-6xl md:text-8xl font-bold mb-6 luxury-heading gradient-gold drop-shadow-[0_0_30px_rgba(212,175,55,0.3)] tracking-tight">
           Quetta A1 Hotel
         </h1>
-        <p className="text-xl text-slate-400 mb-8 max-w-2xl mx-auto">
-          Experience luxury reimagined in the heart of Quetta. 
-          A fusion of tradition and neon-future elegance.
+        <p className="text-xl md:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto font-light leading-relaxed">
+          Where Timeless Elegance Meets Modern Luxury
         </p>
+        <p className="text-base text-gray-400 max-w-2xl mx-auto">
+          Experience unparalleled hospitality in the heart of Quetta
+        </p>
+        <div className="mt-8">
+          <div className="w-20 h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent mx-auto"></div>
+        </div>
       </div>
       
       <div className="px-4">
@@ -142,10 +150,13 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () =
 
       <div className="max-w-6xl mx-auto px-4 mt-12">
         {showResults ? (
-           <div className="animate-fade-in-up">
-              <h2 className="text-2xl font-bold mb-6 text-white border-l-4 border-cyan-500 pl-4">Available Rooms</h2>
+           <div className="fade-in-up">
+              <h2 className="text-3xl font-bold mb-8 text-white luxury-heading">
+                <span className="gradient-gold">Available</span> Accommodations
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-luxury-gold to-transparent mb-8"></div>
               {loading ? (
-                <div className="text-center py-20 text-cyan-400 animate-pulse">Scanning availability...</div>
+                <div className="text-center py-20 text-luxury-gold animate-pulse font-medium">Checking availability...</div>
               ) : (
                 <div className="grid gap-6">
                     {rooms.map(room => (
@@ -155,11 +166,11 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () =
               )}
            </div>
         ) : (
-           <div className="text-center py-20 opacity-50">
-             <div className="inline-block p-4 rounded-full bg-slate-800 mb-4 animate-bounce">
-                <Hotel size={32} className="text-cyan-400"/>
+           <div className="text-center py-32">
+             <div className="inline-block p-6 rounded-full glass-card gold-border mb-6 float-animation">
+                <Hotel size={40} className="text-luxury-gold"/>
              </div>
-             <p>Enter dates to check availability</p>
+             <p className="text-gray-400 text-lg">Select your dates to discover our luxury accommodations</p>
            </div>
         )}
       </div>
@@ -169,7 +180,11 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () =
 
 const Dining = () => (
   <div className="max-w-6xl mx-auto px-4 py-12">
-    <h1 className="text-4xl font-bold mb-8 text-white">In-Room Dining</h1>
+    <div className="text-center mb-12">
+      <h1 className="text-5xl font-bold mb-4 luxury-heading gradient-gold">In-Room Dining</h1>
+      <div className="w-24 h-1 bg-gradient-to-r from-transparent via-luxury-gold to-transparent mx-auto mb-4"></div>
+      <p className="text-gray-400">Exquisite cuisine delivered to your suite</p>
+    </div>
     <DiningMenu />
   </div>
 );
@@ -179,16 +194,17 @@ const StaffDashboard = () => {
 
   return (
     <div className="min-h-screen px-4 py-8 max-w-7xl mx-auto">
-       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-         <h1 className="text-3xl font-bold text-white flex items-center gap-2">
-            <LayoutDashboard className="text-cyan-400"/> Staff Command Center
+       <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-4">
+         <h1 className="text-4xl font-bold luxury-heading flex items-center gap-3">
+            <LayoutDashboard className="text-luxury-gold" size={36}/>
+            <span className="gradient-gold">Staff Dashboard</span>
          </h1>
-         <div className="flex bg-slate-900/80 p-1 rounded-lg border border-slate-700">
+         <div className="flex glass-card p-1.5 rounded-xl border border-luxury-gold/20">
            {(['overview', 'kitchen', 'housekeeping'] as const).map(t => (
              <button
                key={t}
                onClick={() => setTab(t)}
-               className={`px-4 py-2 rounded-md text-sm capitalize transition-all ${tab === t ? 'bg-cyan-500 text-black font-bold shadow-[0_0_10px_rgba(6,182,212,0.4)]' : 'text-slate-400 hover:text-white'}`}
+               className={`px-6 py-3 rounded-lg text-sm capitalize transition-all font-medium ${tab === t ? 'bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-luxury-navy shadow-[0_0_20px_rgba(212,175,55,0.4)]' : 'text-gray-400 hover:text-white'}`}
              >
                {t}
              </button>
@@ -211,42 +227,51 @@ const NavBar: React.FC<{ onLoginClick: () => void }> = ({ onLoginClick }) => {
   const { user, signOut } = useAuth();
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-         <Link to="/" className="text-xl font-bold tracking-tighter flex items-center gap-2">
-           <div className="w-8 h-8 rounded bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-black font-black">Q</div>
-           <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">QUETTA A1</span>
+    <nav className="fixed top-0 w-full z-50 glass-card backdrop-blur-xl border-b border-luxury-gold/20">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+         <Link to="/" className="text-2xl font-bold luxury-heading flex items-center gap-3 group">
+           <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-luxury-gold to-luxury-gold-light flex items-center justify-center text-luxury-navy font-black shadow-lg group-hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all">Q</div>
+           <span className="gradient-gold">QUETTA A1</span>
          </Link>
 
-         <div className="flex items-center gap-6">
+         <div className="flex items-center gap-8">
             {!isStaff ? (
               <>
-                <Link to="/" className="text-sm font-medium hover:text-cyan-400 transition-colors">Stays</Link>
-                <Link to="/dining" className="text-sm font-medium hover:text-cyan-400 transition-colors">Dining</Link>
-                {user && <Link to="/my-bookings" className="text-sm font-medium hover:text-cyan-400 transition-colors">My Trips</Link>}
+                <Link to="/" className="text-sm font-semibold hover:text-luxury-gold transition-all duration-300 relative group">
+                  Stays
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-gold group-hover:w-full transition-all duration-300"></span>
+                </Link>
+                <Link to="/dining" className="text-sm font-semibold hover:text-luxury-gold transition-all duration-300 relative group">
+                  Dining
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-gold group-hover:w-full transition-all duration-300"></span>
+                </Link>
+                {user && <Link to="/my-bookings" className="text-sm font-semibold hover:text-luxury-gold transition-all duration-300 relative group">
+                  My Bookings
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-luxury-gold group-hover:w-full transition-all duration-300"></span>
+                </Link>}
               </>
             ) : (
-              <Link to="/" className="text-sm font-medium text-cyan-400 hover:text-cyan-300">Exit Staff Mode</Link>
+              <Link to="/" className="text-sm font-semibold text-luxury-gold hover:text-luxury-gold-light transition-colors">Exit Staff Mode</Link>
             )}
             
             {user ? (
-               <div className="flex items-center gap-3">
+               <div className="flex items-center gap-4">
                    <div className="hidden md:block text-right">
-                       <p className="text-xs text-slate-400">Welcome,</p>
-                       <p className="text-sm font-bold text-white leading-none">{user.full_name || user.email.split('@')[0]}</p>
+                       <p className="text-xs text-gray-400 font-medium">Welcome back,</p>
+                       <p className="text-sm font-bold gradient-gold leading-none">{user.full_name || user.email.split('@')[0]}</p>
                    </div>
-                   <button onClick={signOut} className="p-2 hover:bg-slate-800 rounded-full text-slate-400 hover:text-red-400 transition-colors">
+                   <button onClick={signOut} className="p-2.5 glass-card border border-white/10 rounded-xl text-gray-400 hover:text-red-400 hover:border-red-400/30 transition-all">
                        <LogOut size={18} />
                    </button>
                </div>
             ) : (
-               <button onClick={onLoginClick} className="flex items-center gap-2 text-sm font-bold text-cyan-400 hover:text-white transition-colors">
-                   <User size={16} /> Sign In
+               <button onClick={onLoginClick} className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-luxury-gold to-luxury-gold-light text-luxury-navy font-bold hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all hover:scale-105">
+                   <User size={18} /> Sign In
                </button>
             )}
 
             {!user && !isStaff && (
-               <Link to="/staff" className="text-xs text-slate-600 hover:text-slate-400">Staff</Link>
+               <Link to="/staff" className="text-xs text-gray-500 hover:text-luxury-gold transition-colors">Staff Portal</Link>
             )}
          </div>
       </div>
@@ -262,7 +287,7 @@ export default function App() {
   return (
     <AuthProvider>
       <HashRouter>
-        <div className="text-slate-200 antialiased selection:bg-cyan-500/30">
+        <div className="text-slate-200 antialiased selection:bg-luxury-gold/30">
           <NavBar onLoginClick={() => setIsAuthModalOpen(true)} />
           <div className="pt-16">
             <Routes>
