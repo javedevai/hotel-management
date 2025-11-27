@@ -6,7 +6,7 @@ A modern hotel management system with AI-powered concierge, built with React, Ty
 
 - 🏨 Room booking system
 - 🍽️ In-room dining
-- 🤖 AI-powered concierge (Google Gemini)
+- 🤖 AI-powered concierge
 - 👥 User authentication
 - 📊 Staff dashboard
 - 🧹 Housekeeping management
