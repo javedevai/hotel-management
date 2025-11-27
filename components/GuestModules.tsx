@@ -5,8 +5,18 @@ import { MenuItem, RoomType } from '../types';
 import { dataService } from '../services/dataService';
 
 // --- Room Search Bar ---
-export const SearchBar: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
+interface SearchBarProps {
+    onSearch: (filters: any) => void;
+}
+
+export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const [isWork, setIsWork] = useState(false);
+  const [checkIn, setCheckIn] = useState('');
+  const [checkOut, setCheckOut] = useState('');
+
+  const handleSearch = () => {
+      onSearch({ checkIn, checkOut, isWork });
+  };
 
   return (
     <NeonCard className="p-4 flex flex-wrap lg:flex-nowrap gap-4 items-end bg-slate-900/90 sticky top-4 z-40 mx-auto max-w-6xl shadow-2xl">
@@ -15,8 +25,18 @@ export const SearchBar: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
       </div>
       
       <div className="flex gap-2 min-w-[250px]">
-        <NeonInput type="date" label="Check-in" className="w-full" />
-        <NeonInput type="date" label="Check-out" className="w-full" />
+        <NeonInput 
+            type="date" 
+            label="Check-in" 
+            className="w-full" 
+            onChange={(e) => setCheckIn(e.target.value)}
+        />
+        <NeonInput 
+            type="date" 
+            label="Check-out" 
+            className="w-full"
+            onChange={(e) => setCheckOut(e.target.value)}
+        />
       </div>
 
       <div className="min-w-[150px]">
@@ -32,11 +52,11 @@ export const SearchBar: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
              <input type="checkbox" className="hidden" checked={isWork} onChange={() => setIsWork(!isWork)} />
              {isWork && <Briefcase size={12} className="text-black" />}
           </div>
-          <span className="text-sm text-slate-400 group-hover:text-cyan-300 transition-colors">I'm traveling for work</span>
+          <span className="text-sm text-slate-400 group-hover:text-cyan-300 transition-colors">Business</span>
         </label>
       </div>
 
-      <NeonButton onClick={onSearch} className="w-full lg:w-auto h-[50px]">
+      <NeonButton onClick={handleSearch} className="w-full lg:w-auto h-[50px]">
         Check Availability
       </NeonButton>
     </NeonCard>
@@ -44,7 +64,7 @@ export const SearchBar: React.FC<{ onSearch: () => void }> = ({ onSearch }) => {
 };
 
 // --- Room List Item ---
-export const RoomListItem: React.FC<{ room: RoomType, onBook: (r: RoomType) => void }> = ({ room, onBook }) => {
+export const RoomListItem: React.FC<{ room: RoomType, onBook: (id: string) => void }> = ({ room, onBook }) => {
   return (
     <NeonCard className="flex flex-col md:flex-row overflow-hidden group">
       <div className="w-full md:w-1/3 h-64 md:h-auto relative overflow-hidden">
@@ -94,7 +114,7 @@ export const RoomListItem: React.FC<{ room: RoomType, onBook: (r: RoomType) => v
             <div className="text-3xl font-bold text-white">${room.base_price}</div>
             <span className="text-xs text-slate-500">Includes taxes & fees</span>
           </div>
-          <NeonButton onClick={() => onBook(room)}>
+          <NeonButton onClick={() => onBook(room.id)}>
             Select Room
           </NeonButton>
         </div>

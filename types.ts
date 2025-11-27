@@ -40,29 +40,6 @@
   - is_business_trip: boolean
   - guests_adults: number
   - guests_children: number
-
-  Table: menu_items
-  - id: uuid (PK)
-  - category: 'breakfast' | 'mains' | 'desserts' | 'beverages'
-  - name: text
-  - description: text
-  - price: number
-  - dietary_tags: text[] (e.g., ['vegan', 'spicy'])
-  - available: boolean
-
-  Table: orders
-  - id: uuid (PK)
-  - booking_id: uuid (FK)
-  - status: 'pending' | 'preparing' | 'delivering' | 'delivered'
-  - total_price: number
-  - created_at: timestamp
-  - notes: text
-
-  Table: order_items
-  - id: uuid (PK)
-  - order_id: uuid (FK)
-  - menu_item_id: uuid (FK)
-  - quantity: number
 */
 
 export enum UserRole {
@@ -71,6 +48,20 @@ export enum UserRole {
   STAFF_HOUSE = 'staff_housekeeping',
   STAFF_KITCHEN = 'staff_kitchen',
   ADMIN = 'admin'
+}
+
+export enum BookingStatus {
+  CONFIRMED = 'confirmed',
+  CHECKED_IN = 'checked_in',
+  CHECKED_OUT = 'checked_out',
+  CANCELLED = 'cancelled'
+}
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  full_name?: string;
+  role: UserRole;
 }
 
 export interface RoomType {
@@ -97,8 +88,9 @@ export interface Booking {
   room_type_name: string; // Joined for display
   check_in: string;
   check_out: string;
-  status: 'confirmed' | 'checked_in' | 'checked_out' | 'cancelled';
+  status: BookingStatus;
   total_amount: number;
+  image_url?: string;
 }
 
 export interface MenuItem {

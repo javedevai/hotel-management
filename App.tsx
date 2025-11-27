@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Hotel, Coffee, MessageSquare, X, Send } from 'lucide-react';
-import { NeonButton, NeonCard, NeonInput } from './components/UI';
+import { HashRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Hotel, Coffee, MessageSquare, X, Send, LogOut, User } from 'lucide-react';
+import { NeonButton, NeonCard, Modal } from './components/UI';
 import { SearchBar, RoomListItem, DiningMenu } from './components/GuestModules';
 import { KitchenDisplay, HousekeepingView, AnalyticsDashboard } from './components/StaffModules';
+import { AuthModalContent } from './components/Auth';
+import { Checkout } from './pages/Checkout';
+import { MyBookings } from './pages/MyBookings';
+import { AuthProvider, useAuth } from './services/authContext';
 import { chatWithConcierge } from './services/geminiService';
 import { dataService } from './services/dataService';
 import { RoomType } from './types';
@@ -89,10 +93,13 @@ const AIChatWidget: React.FC<{ rooms: RoomType[] }> = ({ rooms }) => {
 
 // --- Page Components ---
 
-const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void }> = ({ setRoomsContext }) => {
+const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void, openLogin: () => void }> = ({ setRoomsContext, openLogin }) => {
   const [showResults, setShowResults] = useState(false);
   const [rooms, setRooms] = useState<RoomType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState<any>({});
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   // Load rooms on mount for both display and context
   useEffect(() => {
@@ -104,6 +111,18 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void }> = ({ setRooms
     };
     loadRooms();
   }, [setRoomsContext]);
+
+  const handleBook = (roomId: string) => {
+    if (!user) {
+        openLogin();
+        return;
+    }
+    const params = new URLSearchParams({
+        checkIn: filters.checkIn || '',
+        checkOut: filters.checkOut || ''
+    });
+    navigate(`/checkout/${roomId}?${params.toString()}`);
+  };
 
   return (
     <div className="min-h-screen pb-20">
@@ -118,7 +137,7 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void }> = ({ setRooms
       </div>
       
       <div className="px-4">
-         <SearchBar onSearch={() => setShowResults(true)} />
+         <SearchBar onSearch={(f) => { setFilters(f); setShowResults(true); }} />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 mt-12">
@@ -130,7 +149,7 @@ const Home: React.FC<{ setRoomsContext: (r: RoomType[]) => void }> = ({ setRooms
               ) : (
                 <div className="grid gap-6">
                     {rooms.map(room => (
-                    <RoomListItem key={room.id} room={room} onBook={(r) => alert(`Booking initiated for ${r.name}`)} />
+                        <RoomListItem key={room.id} room={room} onBook={handleBook} />
                     ))}
                 </div>
               )}
@@ -186,9 +205,10 @@ const StaffDashboard = () => {
   );
 };
 
-const NavBar = () => {
+const NavBar: React.FC<{ onLoginClick: () => void }> = ({ onLoginClick }) => {
   const location = useLocation();
   const isStaff = location.pathname.includes('staff');
+  const { user, signOut } = useAuth();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
@@ -203,15 +223,31 @@ const NavBar = () => {
               <>
                 <Link to="/" className="text-sm font-medium hover:text-cyan-400 transition-colors">Stays</Link>
                 <Link to="/dining" className="text-sm font-medium hover:text-cyan-400 transition-colors">Dining</Link>
-                <Link to="/staff" className="text-sm font-medium text-slate-500 hover:text-white transition-colors">Staff Access</Link>
+                {user && <Link to="/my-bookings" className="text-sm font-medium hover:text-cyan-400 transition-colors">My Trips</Link>}
               </>
             ) : (
               <Link to="/" className="text-sm font-medium text-cyan-400 hover:text-cyan-300">Exit Staff Mode</Link>
             )}
             
-            <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center text-xs font-bold text-white cursor-pointer hover:border-cyan-400">
-              JS
-            </div>
+            {user ? (
+               <div className="flex items-center gap-3">
+                   <div className="hidden md:block text-right">
+                       <p className="text-xs text-slate-400">Welcome,</p>
+                       <p className="text-sm font-bold text-white leading-none">{user.full_name || user.email.split('@')[0]}</p>
+                   </div>
+                   <button onClick={signOut} className="p-2 hover:bg-slate-800 rounded-full text-slate-400 hover:text-red-400 transition-colors">
+                       <LogOut size={18} />
+                   </button>
+               </div>
+            ) : (
+               <button onClick={onLoginClick} className="flex items-center gap-2 text-sm font-bold text-cyan-400 hover:text-white transition-colors">
+                   <User size={16} /> Sign In
+               </button>
+            )}
+
+            {!user && !isStaff && (
+               <Link to="/staff" className="text-xs text-slate-600 hover:text-slate-400">Staff</Link>
+            )}
          </div>
       </div>
     </nav>
@@ -221,20 +257,29 @@ const NavBar = () => {
 // --- Main App ---
 export default function App() {
   const [roomsContext, setRoomsContext] = useState<RoomType[]>([]);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   return (
-    <HashRouter>
-      <div className="text-slate-200 antialiased selection:bg-cyan-500/30">
-        <NavBar />
-        <div className="pt-16">
-          <Routes>
-            <Route path="/" element={<Home setRoomsContext={setRoomsContext} />} />
-            <Route path="/dining" element={<Dining />} />
-            <Route path="/staff" element={<StaffDashboard />} />
-          </Routes>
+    <AuthProvider>
+      <HashRouter>
+        <div className="text-slate-200 antialiased selection:bg-cyan-500/30">
+          <NavBar onLoginClick={() => setIsAuthModalOpen(true)} />
+          <div className="pt-16">
+            <Routes>
+              <Route path="/" element={<Home setRoomsContext={setRoomsContext} openLogin={() => setIsAuthModalOpen(true)} />} />
+              <Route path="/dining" element={<Dining />} />
+              <Route path="/staff" element={<StaffDashboard />} />
+              <Route path="/checkout/:roomId" element={<Checkout />} />
+              <Route path="/my-bookings" element={<MyBookings />} />
+            </Routes>
+          </div>
+          <AIChatWidget rooms={roomsContext} />
+          
+          <Modal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} title="Welcome to Quetta A1">
+             <AuthModalContent onSuccess={() => setIsAuthModalOpen(false)} />
+          </Modal>
         </div>
-        <AIChatWidget rooms={roomsContext} />
-      </div>
-    </HashRouter>
+      </HashRouter>
+    </AuthProvider>
   );
 }

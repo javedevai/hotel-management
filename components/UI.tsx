@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { X } from 'lucide-react';
 
 // Neon Card
 export interface NeonCardProps {
@@ -81,3 +82,29 @@ export const NeonBadge: React.FC<NeonBadgeProps> = ({ children, color = 'cyan' }
     </span>
   );
 };
+
+// Modal
+export interface ModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    title: string;
+    children: ReactNode;
+}
+
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+    if (!isOpen) return null;
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
+            <NeonCard className="w-full max-w-md p-6 z-10 animate-fade-in-up border-cyan-500/50 shadow-[0_0_50px_rgba(6,182,212,0.15)]">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-bold text-white">{title}</h2>
+                    <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
+                        <X size={24} />
+                    </button>
+                </div>
+                {children}
+            </NeonCard>
+        </div>
+    )
+}

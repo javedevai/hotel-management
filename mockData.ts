@@ -1,4 +1,4 @@
-import { RoomType, MenuItem, Order, HousekeepingTask, Booking } from './types';
+import { RoomType, MenuItem, Order, HousekeepingTask, Booking, BookingStatus } from './types';
 
 export const MOCK_ROOM_TYPES: RoomType[] = [
   {
@@ -8,7 +8,7 @@ export const MOCK_ROOM_TYPES: RoomType[] = [
     max_occupancy: 2,
     description: 'A luxurious suite inspired by the ancient juniper forests, featuring panoramic city views and a private jacuzzi.',
     amenities: ['Free Wi-Fi', 'Spa', 'Room Service', 'King Bed', 'City View'],
-    image_url: 'https://picsum.photos/800/600?random=1',
+    image_url: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2670&auto=format&fit=crop',
     rating: 4.8,
     reviews_count: 124
   },
@@ -19,7 +19,7 @@ export const MOCK_ROOM_TYPES: RoomType[] = [
     max_occupancy: 3,
     description: 'Spacious family room with modern neon accents and soothing blue tones reminiscent of Hanna Lake.',
     amenities: ['Free Wi-Fi', 'Pool', 'Parking', '2 Queen Beds'],
-    image_url: 'https://picsum.photos/800/600?random=2',
+    image_url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2670&auto=format&fit=crop',
     rating: 4.5,
     reviews_count: 89
   },
@@ -30,7 +30,7 @@ export const MOCK_ROOM_TYPES: RoomType[] = [
     max_occupancy: 1,
     description: 'Designed for the modern traveler with a dedicated ergonomic workspace and high-speed fiber internet.',
     amenities: ['Free Wi-Fi', 'Gym', 'Work Desk', 'Soundproofing'],
-    image_url: 'https://picsum.photos/800/600?random=3',
+    image_url: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=2574&auto=format&fit=crop',
     rating: 4.6,
     reviews_count: 210
   }
@@ -44,7 +44,7 @@ export const MOCK_MENU: MenuItem[] = [
     description: 'Traditional Balochi roasted lamb with rice.',
     price: 25,
     dietary_tags: ['GF', 'Halal'],
-    image_url: 'https://picsum.photos/200/200?random=10'
+    image_url: 'https://images.unsplash.com/photo-1606471191009-63994c53433b?q=80&w=1000&auto=format&fit=crop'
   },
   {
     id: 'm2',
@@ -53,7 +53,7 @@ export const MOCK_MENU: MenuItem[] = [
     description: 'Classic doodh patti chai with crispy paratha.',
     price: 8,
     dietary_tags: ['Veg'],
-    image_url: 'https://picsum.photos/200/200?random=11'
+    image_url: 'https://images.unsplash.com/photo-1542365858-3b6aee371efc?q=80&w=1000&auto=format&fit=crop'
   },
   {
     id: 'm3',
@@ -62,7 +62,7 @@ export const MOCK_MENU: MenuItem[] = [
     description: 'Blueberry, lemon, and mint sparkling refresher.',
     price: 6,
     dietary_tags: ['Vegan'],
-    image_url: 'https://picsum.photos/200/200?random=12'
+    image_url: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1000&auto=format&fit=crop'
   }
 ];
 
@@ -97,7 +97,8 @@ export const MOCK_BOOKINGS: Booking[] = [
     room_type_name: 'Hanna Lake Deluxe',
     check_in: '2023-11-15',
     check_out: '2023-11-18',
-    status: 'confirmed',
-    total_amount: 330
+    status: BookingStatus.CONFIRMED,
+    total_amount: 330,
+    image_url: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2670&auto=format&fit=crop'
   }
 ];
