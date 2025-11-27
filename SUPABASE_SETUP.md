@@ -1,12 +1,24 @@
 # Supabase Setup Guide
 
-## Step 1: Disable Email Confirmation (for development)
+## Step 1: Configure URL Settings
 
 1. Go to your Supabase Dashboard: https://supabase.com/dashboard
 2. Select your project
-3. Go to **Authentication** → **Providers** → **Email**
-4. **Disable** "Confirm email" option
-5. Click **Save**
+3. Go to **Authentication** → **URL Configuration**
+4. Set **Site URL** to: `https://quetta-hotel-management.netlify.app`
+5. Add to **Redirect URLs**:
+   - `https://quetta-hotel-management.netlify.app/**`
+   - `http://localhost:3000/**`
+6. Click **Save**
+
+## Step 1b: Email Confirmation (Optional)
+
+For development, you can disable email confirmation:
+1. Go to **Authentication** → **Providers** → **Email**
+2. **Disable** "Confirm email" option
+3. Click **Save**
+
+For production, keep it enabled for security.
 
 ## Step 2: Create Database Tables
 

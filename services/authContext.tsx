@@ -69,12 +69,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signUpWithEmail = async (email: string, password: string, fullName: string) => {
+    const redirectUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000'
+      : 'https://quetta-hotel-management.netlify.app';
+      
     const { data: authData, error: authError } = await supabase.auth.signUp({ 
         email, 
         password,
         options: {
             data: { full_name: fullName },
-            emailRedirectTo: window.location.origin
+            emailRedirectTo: redirectUrl
         }
     });
 
