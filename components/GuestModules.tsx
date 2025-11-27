@@ -243,7 +243,7 @@ export const DiningMenu: React.FC = () => {
                  {ordering ? <Loader className="animate-spin mx-auto" /> : 'Confirm Order'}
                </NeonButton>
             </div>
-          )
+          )}
         </NeonCard>
       </div>
     </div>
