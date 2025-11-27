@@ -21,6 +21,7 @@ const AIChatWidget: React.FC<{ rooms: RoomType[] }> = ({ rooms }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   const toggleChat = () => setIsOpen(!isOpen);
 
@@ -35,9 +36,35 @@ const AIChatWidget: React.FC<{ rooms: RoomType[] }> = ({ rooms }) => {
     setMessages(prev => [...prev, { role: 'user', text: userMsg }]);
     setLoading(true);
 
-    const aiResponse = await chatWithConcierge(userMsg, rooms);
+    // Prepare context with authentication and room availability
+    const conciergeContext = {
+      isAuthenticated: !!user,
+      userName: user?.full_name || user?.email?.split('@')[0],
+      availableRooms: rooms.map(r => ({
+        id: r.id,
+        name: r.name,
+        price: r.base_price,
+        capacity: r.max_occupancy,
+        available: true, // In real app, check actual availability
+        roomNumbers: generateRoomNumbers(r.name) // Generate room numbers
+      }))
+    };
+
+    const aiResponse = await chatWithConcierge(userMsg, rooms, conciergeContext);
     setMessages(prev => [...prev, { role: 'ai', text: aiResponse }]);
     setLoading(false);
+  };
+
+  // Helper function to generate room numbers based on room type
+  const generateRoomNumbers = (roomName: string): string[] => {
+    const roomMap: Record<string, string[]> = {
+      'Deluxe Suite': ['201', '202', '203', '204', '205'],
+      'Executive Suite': ['301', '302', '303', '304'],
+      'Presidential Suite': ['401', '402'],
+      'Standard Room': ['101', '102', '103', '104', '105', '106', '107', '108'],
+      'Family Suite': ['501', '502', '503']
+    };
+    return roomMap[roomName] || ['101', '102', '103'];
   };
 
   return (
