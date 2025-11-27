@@ -73,20 +73,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email, 
         password,
         options: {
-            data: { full_name: fullName }
+            data: { full_name: fullName },
+            emailRedirectTo: window.location.origin
         }
     });
 
     if (authError) return { error: authError };
 
+    // Check if email confirmation is required
+    if (authData.user && !authData.session) {
+        return { error: { message: 'Please check your email to confirm your account' } };
+    }
+
     if (authData.user) {
         // Create profile manually if trigger doesn't exist
-        await supabase.from('profiles').insert({
+        const { error: profileError } = await supabase.from('profiles').upsert({
             id: authData.user.id,
             email: email,
             full_name: fullName,
             role: 'guest'
-        });
+        }, { onConflict: 'id' });
+        
+        if (profileError) console.error('Profile creation error:', profileError);
     }
 
     return { error: null };
